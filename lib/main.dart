@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
 
+import 'package:calculator/SplashScreen.dart';
+import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 void main(){
   runApp(Calculator());
 }
@@ -12,7 +14,7 @@ class Calculator extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.lightGreen),
       title: 'Calculator',
-      home: SimpleCalculator(),
+      home: SplashScreen(),
     );
   }
 }
@@ -27,10 +29,43 @@ String result ="0";
 String expression="";
 double equationfontsize=38.0;
 double resultfontsize=48.0;
-
-  buttonPressed(String text){
+int flag=0;
+  buttonPressed(String buttonText){
 setState(() {
-print(text);
+  if(flag==1)equation="0";
+  if(buttonText=="C"){
+equation="0";
+result="0";
+ equationfontsize=38.0;
+ resultfontsize=48.0;
+  }else if(buttonText=="⌫"){
+    equationfontsize=48.0;
+    resultfontsize=38.0;
+equation=equation.substring(0,equation.length-1);
+if(equation=="")equation="0";
+  }
+  else if(buttonText=="="){
+    equationfontsize=38.0;
+    resultfontsize=48.0;
+    expression=equation;
+    expression=expression.replaceAll('÷','/');
+    expression=expression.replaceAll('×','*');
+    try{
+      Parser p=new Parser();
+      Expression exp=p.parse(expression);
+ContextModel cm=ContextModel();
+result='${exp.evaluate(EvaluationType.REAL,cm )}';
+    }catch(e){
+      result="Error";
+    }
+    flag=1;
+  }else{
+    equationfontsize=38.0;
+    resultfontsize=48.0;
+    if(equation=="0")equation=buttonText;
+    else equation=equation+buttonText;
+    flag=0;
+  }
 });
   }
   Widget buildButton(String text,double height,Color color){
