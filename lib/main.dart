@@ -62,9 +62,11 @@ result='${exp.evaluate(EvaluationType.REAL,cm )}';
   }else{
     equationfontsize=38.0;
     resultfontsize=48.0;
+    if(equation=="÷"||equation=="×"||equation=="+"||equation=="-")equation=result+equation;
     if(equation=="0")equation=buttonText;
     else equation=equation+buttonText;
     flag=0;
+
   }
 });
   }
@@ -79,8 +81,10 @@ result='${exp.evaluate(EvaluationType.REAL,cm )}';
             textStyle: const TextStyle(fontSize: 20),
           ),
           onPressed: () =>  buttonPressed(text),
-          child: Text(text,
-            style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.normal,color: Colors.white),)),);
+          child: Text(text, style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.w400,color: Colors.white),)
+
+      ),
+    );
   }
   @override
   Widget build(BuildContext context) {
@@ -93,7 +97,7 @@ result='${exp.evaluate(EvaluationType.REAL,cm )}';
         padding: EdgeInsets.fromLTRB(10, 20,10,0),
         child: Text(equation,style: TextStyle(fontSize: equationfontsize),),
       ),
-          Container(
+      Container(
             alignment: Alignment.centerRight,
             padding: EdgeInsets.fromLTRB(10, 20,10,0),
             child: Text(result,style: TextStyle(fontSize:resultfontsize),),
@@ -113,7 +117,8 @@ result='${exp.evaluate(EvaluationType.REAL,cm )}';
                           buildButton("⌫",1 , Colors.blue),
                           buildButton("÷",1 , Colors.blue), 
                       ]
-                    ),       TableRow(
+                    ),
+                    TableRow(
                         children: [
                           buildButton("7",1,Colors.black45),
                           buildButton("8",1 , Colors.black45),
@@ -143,8 +148,7 @@ result='${exp.evaluate(EvaluationType.REAL,cm )}';
                     ),
                   ],
                 ),
-              )
-              ,
+              ),
               Container(
                 width:MediaQuery.of(context).size.width*0.25,
                 child: Table(
@@ -174,13 +178,9 @@ result='${exp.evaluate(EvaluationType.REAL,cm )}';
               )
             ],
           ),
-
-
       ],
       ),
     );
   }
-
-
 }
 
